@@ -1,8 +1,8 @@
-# Game of Life: With Dwellers
+# Game of Life: With Denizens
 
 ## What and why
 
-Another approach (after last year’s [successful implementation](https://github.com/Krazov/game-of-life)) at Conway’s Game of Life. The difference this time is the cells are not primitive numbers but objects holding its state. Another difference is non-binary population, though how it goes, we’ll see.
+Another approach (after last year’s [successful implementation](https://github.com/Krazov/game-of-life)) at Conway’s Game of Life. The difference this time is the cells are not primitive numbers but objects holding its state (called Denizens). Another difference is non-binary population, though how it goes, we’ll see.
 
 ## Game
 
