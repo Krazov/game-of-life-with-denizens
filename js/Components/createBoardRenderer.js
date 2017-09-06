@@ -27,12 +27,17 @@ define(
 
             updateCells(values) {
                 this.cells.forEach((cell, index) => {
-                    cell.innerHTML = values[index];
+                    this.update(cell, values[index]);
                 });
             }
 
             updateCell(index, value) {
-                this.cells[index].innerHTML = value;
+                this.update(this.cells[index], value);
+            }
+
+            update(cell, value) {
+                cell.dataset.life = value;
+                cell.innerHTML    = value;
             }
 
             static createBoard(width, height) {
