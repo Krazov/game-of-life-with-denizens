@@ -1,20 +1,29 @@
 :root {
     --selection: 1vh;
 }
+
 body {
     /* TODO: no select */
     text-align: center;
 }
+
 table {
     margin: auto;
 }
+
 td {
     cursor:         pointer;
     height:         5vh;
     text-align:     center;
     vertical-align: middle;
+    transition:     background-color 250ms ease;
     width:          5vh;
 }
+
+td[data-life="1"] {
+    background-color: #eee;
+}
+
 td:hover {
     box-shadow: 0 0 var(--selection) black, 0 0 var(--selection) black inset;
 }
