@@ -27,15 +27,15 @@ define(
 
             updateCells(values) {
                 this.cells.forEach((cell, index) => {
-                    this.update(cell, values[index]);
+                    Renderer.update(cell, values[index]);
                 });
             }
 
             updateCell(index, value) {
-                this.update(this.cells[index], value);
+                Renderer.update(this.cells[index], value);
             }
 
-            update(cell, value) {
+            static update(cell, value) {
                 cell.dataset.life = value;
                 cell.innerHTML    = value;
             }
