@@ -11,6 +11,10 @@ define(
                 return this.life;
             }
 
+            isAlive() {
+                return !!this.life;
+            }
+
             setAlive() {
                 return Denizen.setLife(this, 1);
             }

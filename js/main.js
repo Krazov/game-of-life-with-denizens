@@ -5,7 +5,7 @@ require.config({
         tools:     '/js/Utils/tools',
         constants: '/js/Configs/constants',
         status:    '/js/Components/createGameStatus',
-        denizen:      '/js/Components/createDenizen',
+        denizen:   '/js/Components/createDenizen',
         board:     '/js/Components/createBoard',
         renderer:  '/js/Components/createBoardRenderer'
     }
@@ -24,7 +24,7 @@ require(
 
         log('hello');
 
-        const [WIDTH, HEIGHT] = [10, 10];
+        const [WIDTH, HEIGHT] = [15, 15];
 
         const gameStatus = createStatus();
 
@@ -86,9 +86,21 @@ require(
         }
 
         function tick() {
-            const currentState = board.getArea().map(cell => cell.dweller.getValue());
+            const currentState = board.getArea().map(cell => cell.denizen.getValue()).join('');
+
+            log('current state', currentState);
 
             // TODO: calculate new values
+            const neighboursCount = board.getArea()
+                .map((_, index) => board.getNeighbours(index))
+                .map(
+                    neighbours => neighbours
+                        .map(denizen => denizen.isAlive() ? 1 : 0)
+                        .reduce((count, isAlive) => count + isAlive, 0)
+                );
+
+            log('neighbours count', neighboursCount);
+
             // TODO: check if oscilator or dead
             // TODO:    if yes, then inform and continue (oscilator) or stop the game (dead)
             // TODO:    if no, then update board
