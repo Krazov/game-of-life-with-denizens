@@ -24,6 +24,8 @@ require(
 
         log('hello');
 
+        let tickId = 0;
+
         const [WIDTH, HEIGHT] = [15, 15];
 
         const gameStatus = createStatus();
@@ -50,7 +52,7 @@ require(
             // board handler
             renderer.getCells().forEach((cell, index) => {
                 cell.addEventListener('click', () => {
-                    if (gameStatus.getStatus()) {
+                    if (gameStatus.isActive()) {
                         log('game is running');
 
                         return;
@@ -63,7 +65,7 @@ require(
             });
 
             document.querySelector('.gameStart').addEventListener('click', () => {
-                if (gameStatus.getStatus()) {
+                if (gameStatus.isActive()) {
                     return;
                 }
 
@@ -72,7 +74,7 @@ require(
             });
 
             document.querySelector('.gameStop').addEventListener('click', () => {
-                if (!gameStatus.getStatus()) {
+                if (!gameStatus.isActive()) {
                     return;
                 }
 
@@ -86,12 +88,15 @@ require(
         }
 
         function tick() {
-            const currentState = board.getArea().map(cell => cell.denizen.getValue()).join('');
+            const area = board.getArea();
+
+            // take a snapshot of current state
+            const currentState = area.map(cell => cell.denizen.getValue()).join('');
 
             log('current state', currentState);
 
-            // TODO: calculate new values
-            const neighboursCount = board.getArea()
+            // calculate new values
+            const neighboursCount = area
                 .map((_, index) => board.getNeighbours(index))
                 .map(
                     neighbours => neighbours
@@ -99,11 +104,24 @@ require(
                         .reduce((count, isAlive) => count + isAlive, 0)
                 );
 
+            area
+                .map(cell => cell.denizen)
+                .forEach((denizen, index) => {
+                    denizen.update(neighboursCount[index]);
+                });
+
             log('neighbours count', neighboursCount);
 
             // TODO: check if oscilator or dead
             // TODO:    if yes, then inform and continue (oscilator) or stop the game (dead)
             // TODO:    if no, then update board
+            renderer.updateCells(area.map(cell => cell.denizen.getValue()));
+
+            setTimeout(() => {
+                if (gameStatus.isActive()) {
+                    tickId = tick();
+                }
+            }, TICK_LENGTH);
         }
     }
 );

@@ -3,9 +3,9 @@
 define(function () {
     class GameStatus {
         constructor() {
-            this.timeoutId = 0;
-            this.active    = false;
-            this.history   = [];
+            this.tickId  = 0;
+            this.active  = false;
+            this.history = [];
         }
 
         restart() {
@@ -13,15 +13,28 @@ define(function () {
             this.active  = true;
         }
 
-        start() {
+        start(tickId) {
+            if (this.active) {
+                return;
+            }
+
+            // else
+            this.tickId = tickId;
             this.active = true;
         }
 
         stop() {
+            if (!this.active) {
+                return;
+            }
+
+            // else
+            clearTimeout(this.tickId);
+            this.tickId = 0;
             this.active = false;
         }
 
-        getStatus() {
+        isActive() {
             return this.active;
         }
 

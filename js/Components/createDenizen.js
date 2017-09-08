@@ -12,7 +12,18 @@ define(
             }
 
             isAlive() {
-                return !!this.life;
+                return this.life > 0;
+            }
+
+            update(neighbours) {
+                switch (Denizen.checkStatus(neighbours)) {
+                case true:
+                    this.increase();
+                    break;
+                case false:
+                    this.setDead();
+                    break;
+                }
             }
 
             setAlive() {
